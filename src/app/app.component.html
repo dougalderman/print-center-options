@@ -10,23 +10,23 @@
   <textarea id="special-instructions" formControlName="specialInstructions" placeholder="If you have any specific instructions pertinent to your entire order, please enter them here...">
   </textarea>
 
-  <table>
+  <table formArrayName="selections">  
     <tr>
       <th>File</th>
       <th>Print</th>
       <th>Color</th>
       <th>Notes</th>
-    </tr>  
-    <tr *ngFor="let doc of docs; let i = index">
-      <td>doc.fileName</td>
+    </tr>
+    <tr *ngFor="let docSelection of selections.controls; let i = index">
+      <td>{{docSelection.value.filename}}</td>
       <td>
-        <input type="checkbox" id="print" formControlName="selections.controls[0].controls.print">
+        <input type="checkbox" id="print" formControlName="print">
       </td>
       <td>
         <input type="checkbox" id="color" formControlName="color">
       </td>
       <td>
-        <input type="text" id="notes" formControlName="notes">
+        <input type="text" id="notes" formControlName="text">
       </td>
     </tr>
   </table>
