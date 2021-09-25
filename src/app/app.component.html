@@ -17,20 +17,20 @@
       <th>Color</th>
       <th>Notes</th>
     </tr>
-    <tr *ngFor="let docSelection of selections.controls; let i = index">
+    <tr *ngFor="let docSelection of selections.controls; let i = index" formGroupName="{{i}}">
       <td>{{docSelection.value.filename}}</td>
       <td>
-        <input type="checkbox" id="print" formControlName="print">
+        <input type="checkbox" id="print-{{i}}" formControlName="print">
       </td>
       <td>
-        <input type="checkbox" id="color" formControlName="color">
+        <input type="checkbox" id="color={{i}}" formControlName="color">
       </td>
       <td>
-        <input type="text" id="notes" formControlName="text">
-      </td>
+        <input type="text" id="notes{{i}}" formControlName="notes">
+    </td>
     </tr>
   </table>
   <p>*File is not compatible with print center</p>
   <button type="submit">Submit</button>
-  <button>Cancel</button>
+  <button (click)="onCancel()">Cancel</button>
 </form>    

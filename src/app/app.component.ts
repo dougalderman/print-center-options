@@ -1,30 +1,34 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, FormArray, FormBuilder } from '@angular/forms';
 
-import { PrintCenterApiService } from './print-center-api.service';
+import { PrintCenterApiService } from './services/print-center-api.service';
+
+const unPrintable: string[] = [
+  'zip',
+  'tar'
+];
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent {
 
-  docs: any[] = [];
-
-  docSelection: FormGroup = this.fb.group({
-    filename: new FormControl(''),
-    print: new FormControl(''),
-    color: new FormControl(''),
-    notes: new FormControl(''),
-  })
-
-  docSelections: FormArray = this.fb.array([this.docSelection]);
-
-  printCenterOptions = this.fb.group({
-    deliverTo: new FormControl(''),
-    specialInstructions: new FormControl(''),
-    selections: this.docSelections
+  docs: string[] = [];
+ 
+  printCenterOptions: FormGroup = this.fb.group({
+    deliverTo: ['owner'],
+    specialInstructions: [''],
+    selections: this.fb.array([
+      this.fb.group({
+        filename: [''],
+        print: [false],
+        color: [false],
+        notes: ['']
+      })  
+    ])
   });
 
 
@@ -46,32 +50,67 @@ export class AppComponent {
           if (data && data.documents && data.documents.filename && data.documents.filename.length) {
             this.docs = data.documents.filename;
             console.log('this.docs: ', this.docs);
-            this.docSelections.setControl(0, 
-              this.fb.group({
-                filename: this.docs[0],
-                print: '',
-                color: '',
-                notes: ''
-              })  
-            );
-            for (let i = 1; i < this.docs.length; i++) {
-              this.docSelections.push(
-                this.fb.group({
-                  filename: this.docs[i],
-                  print: '',
-                  color: '',
-                  notes: ''
-                })  
-              );
+           
+            for (let i = 0; i < this.docs.length; i++) {
+              const doc: string = this.docs[i];
+              const printable: boolean = this.checkIfPrintableFilename(doc);
+              
+              if (i === 0) {
+                this.selections.setControl(0, 
+                  this.fb.group({
+                    filename: {value: doc, disabled: !printable},
+                    print: {value: false, disabled: !printable},
+                    color: {value: false, disabled: !printable},
+                    notes: {value: '', disabled: !printable}
+                  })  
+                );
+              }
+              else {
+                this.selections.push(
+                  this.fb.group({
+                    filename: {value: doc, disabled: !printable},
+                    print: {value: false, disabled: !printable},
+                    color: {value: false, disabled: !printable},
+                    notes: {value: '', disabled: !printable}
+                  })  
+                );
+              }  
             }
-            console.log('this.docSelections.controls: ', this.docSelections.controls);
+
+            console.log('this.selections.controls: ', this.selections.controls);
           }
         }  
       );
   }
 
+  checkIfPrintableFilename(fileName: string): boolean {
+    const ext = fileName.slice(fileName.indexOf('.') + 1)
+    
+    if (fileName && unPrintable.find(el => el===ext)) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+
   onSubmit(): void {
-    console.log('submitted')
+    const formData = this.getDataFromForm();
+    this.apiService.sendPrintRequest('./assets/successful-print-job.json', formData)
+      .subscribe(
+        (data: any) => {
+          console.log('data: ', data);
+        });  
+
+    console.log('submitted');
+  }
+
+  onCancel(): void {
+    console.log('cancelled');
+  }
+
+  getDataFromForm(): any {
+    return {};
   }
 }
 
