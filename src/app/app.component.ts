@@ -43,7 +43,7 @@ export class AppComponent {
   }
 
   ngOnInit() {
-    this.apiService.getDocuments('./assets/print-center-data.json')
+    this.apiService.getDocuments('http://demo6343436.mockable.io/')
       .subscribe(
         (data: any) => {
           console.log('data: ', data);
@@ -95,8 +95,8 @@ export class AppComponent {
   }
 
   onSubmit(): void {
-    const formData = this.getDataFromForm();
-    this.apiService.sendPrintRequest('./assets/successful-print-job.json', formData)
+    const formattedFormData = this.getDataFromForm();
+    this.apiService.sendPrintRequest('http://demo6343436.mockable.io/', formattedFormData)
       .subscribe(
         (data: any) => {
           console.log('data: ', data);
@@ -110,7 +110,31 @@ export class AppComponent {
   }
 
   getDataFromForm(): any {
-    return {};
+    let formattedFormData: any = {};
+    let formattedDocumentData: any[] = [];
+
+    let docs = this.printCenterOptions.controls.selections as FormArray;
+
+    for (let control of docs.controls) {
+      console.log('control: ', control);
+      if (control.value.print) {
+        formattedDocumentData.push({
+          'filename': control.value.filename,
+          'color': control.value.color,
+          'notes': control.value.notes
+        });
+      }
+    }
+
+    formattedFormData.printRequest = {
+      deliverTo: this.printCenterOptions.controls.deliverTo.value,
+      instructions: this.printCenterOptions.controls.specialInstructions.value,
+      documents: {
+        document: formattedDocumentData
+      }
+    }
+    
+    return formattedFormData;
   }
 }
 
