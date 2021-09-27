@@ -3,7 +3,7 @@
   width: 60%;
   border-style: solid;
   border-width: 3px;
-  border-radius: 10px;
+  border-radius: 8px;
 }
 
 .inner-container {
@@ -29,12 +29,45 @@
   margin-bottom: 6px;
 }
 
-#special-instructions {
-  width: 95%;
+.deliver-to-container input[type="radio"] {
+  display: none;
+}
+
+.deliver-to-container input[type="radio"] + *::before {
+  content: "";
+  display: inline-block;
+  vertical-align: bottom;
+  width: 0.8rem;
+  height: 0.8rem;
+  margin-right: 0.3rem;
+  border-radius: 50%;
+  border-style: solid;
+  border-width: 0.1rem;
+  border-color: black;
+}
+
+.deliver-to-container input[type="radio"]:checked + *::before {
+  background: radial-gradient(black 0%, black 40%, transparent 50%, transparent);
+  border-color: black;
+}
+
+.deliver-to-container input[type="radio"]:checked + * {
+  color: black;
+}
+
+.special-instructions-container {
   height: 4rem;
-  margin-top: 8px;
-  margin-bottom: 8px;
+  margin: 8px 0;
   border: 3px solid black;
+}
+
+#special-instructions {
+  box-sizing: border-box;
+  width: 100%;
+  height:inherit;
+  border: none;
+  overflow: hidden;
+  resize: none;
 }
 
 .regular-size-text {
@@ -50,8 +83,12 @@
   color: red;
 }
 
+.fade-text {
+  opacity: 50%;
+}
+
 table.document-selection{
-  width: 95%;
+  width: 100%;
   border: 1px solid black;
   border-collapse: collapse;
   table-layout: fixed;
@@ -65,14 +102,17 @@ th.document-selection {
 
 th.document-selection.file {
   width: 40%;
+  padding-left: 10px;
 }
 
 th.document-selection.print {
   width: 10%;
+  text-align: center;
 }
 
 th.document-selection.color {
   width: 10%;
+  text-align: center;
 }
 
 th.document-selection.notes {
@@ -83,12 +123,21 @@ td.document-selection {
   border: 1px solid black;
 }
 
+td.document-selection.print {
+  text-align: center;
+}
+
+td.document-selection.color {
+  text-align: center;
+}
+
 tr:nth-child(odd) {
   background-color: #d3d3d3d1;
 }
 
 input[type='text'].notes {
-  width: 90%;
+  box-sizing: border-box;
+  width: 100%;
   border: 2px solid black;
 }
 
@@ -102,7 +151,13 @@ input[type='text'].notes {
 }
 
 .message-container {
-  margin-right: 140px;
+  width: 40%;
+  text-align: left;
+}
+
+.button-container {
+  width: 60%;
+  text-align: right;
 }
 
 .submit {

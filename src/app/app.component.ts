@@ -19,6 +19,7 @@ export class AppComponent {
   docs: string[] = [];
   successfulSubmit: boolean = false;
   successfulCancel: boolean = false;
+  printableDoc: boolean[] = [];
  
   printCenterOptions: FormGroup = this.fb.group({
     deliverTo: ['owner'],
@@ -52,8 +53,12 @@ export class AppComponent {
             this.docs = data.documents.filename;
            
             for (let i = 0; i < this.docs.length; i++) {
-              const doc: string = this.docs[i];
+              let doc: string = this.docs[i];
               const printable: boolean = this.checkIfPrintableFilename(doc);
+              this.printableDoc.push(printable);
+              if (!printable) {
+                doc = doc + '*'
+              }
               
               if (i === 0) {
                 this.selections.setControl(0, 
@@ -112,7 +117,6 @@ export class AppComponent {
         this.successfulSubmit = false;
         this.successfulCancel = true;
       });  
-    console.log('cancelled');
   }
 
   getDataFromForm(): any {
@@ -122,7 +126,6 @@ export class AppComponent {
     let docs = this.printCenterOptions.controls.selections as FormArray;
 
     for (let control of docs.controls) {
-      console.log('control: ', control);
       if (control.value.print) {
         formattedDocumentData.push({
           'filename': control.value.filename,
