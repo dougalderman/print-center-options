@@ -1,36 +1,55 @@
-<h1>Print Center Options</h1>
-<p>In order for the Print Center to best serve you, please fill in the information below.</p>
-<form [formGroup]="printCenterOptions" (ngSubmit)="onSubmit()">
-  <h2>Deliver to:</h2>
-  <input type="radio" id="owner" formControlName="deliverTo" [value]="'owner'">
-    <label for="owner">Meeting Owner - Delivery will occur one business day prior to meeting time.</label><br>
-  <input type="radio" id="room" formControlName="deliverTo" [value]="'room'">
-    <label for="room">Meeting Room - Delivery will occur 15 minutes prior to the meeting time.</label><br>
+<div class="outer-container">
+  <div class="inner-container">
+    <h1 class="header">Print Center Options</h1>
+    <p class="regular-size-text informational">In order for the Print Center to best serve you, please fill in the information below.</p>
+    <form [formGroup]="printCenterOptions" (ngSubmit)="onSubmit()">
+      <h2 class="subheader">Deliver to:</h2>
+      <div class="deliver-to">
+        <input type="radio" id="owner" formControlName="deliverTo" [value]="'owner'">
+          <label for="owner" class="regular-size-text">Meeting Owner - Delivery will occur one business day prior to meeting time.</label><br>
+        <input type="radio" id="room" formControlName="deliverTo" [value]="'room'">
+          <label for="room" class="regular-size-text">Meeting Room - Delivery will occur 15 minutes prior to the meeting time.</label><br>
+        </div>
+      <textarea id="special-instructions" formControlName="specialInstructions" placeholder="If you have any specific instructions pertinent to your entire order, please enter them here...">
+      </textarea>
 
-  <textarea id="special-instructions" formControlName="specialInstructions" placeholder="If you have any specific instructions pertinent to your entire order, please enter them here...">
-  </textarea>
-
-  <table formArrayName="selections">  
-    <tr>
-      <th>File</th>
-      <th>Print</th>
-      <th>Color</th>
-      <th>Notes</th>
-    </tr>
-    <tr *ngFor="let docSelection of selections.controls; let i = index" formGroupName="{{i}}">
-      <td>{{docSelection.value.filename}}</td>
-      <td>
-        <input type="checkbox" id="print-{{i}}" formControlName="print">
-      </td>
-      <td>
-        <input type="checkbox" id="color={{i}}" formControlName="color">
-      </td>
-      <td>
-        <input type="text" id="notes{{i}}" formControlName="notes">
-    </td>
-    </tr>
-  </table>
-  <p>*File is not compatible with print center</p>
-  <button type="submit">Submit</button>
-  <button (click)="onCancel()">Cancel</button>
-</form>    
+      <table class="document-selection" formArrayName="selections">  
+        <tr>
+          <th class="document-selection file regular-size-text not-bold">File</th>
+          <th class="document-selection print regular-size-text not-bold">Print</th>
+          <th class="document-selection color regular-size-text not-bold">Color</th>
+          <th class="document-selection notes regular-size-text not-bold">Notes</th>
+        </tr>
+        <tr *ngFor="let docSelection of selections.controls; let i = index" formGroupName="{{i}}">
+          <td class="document-selection regular-size-text">{{docSelection.value.filename}}</td>
+          <td class="document-selection regular-size-text">
+            <input type="checkbox" id="print-{{i}}" formControlName="print">
+          </td>
+          <td class="document-selection regular-size-text">
+            <input type="checkbox" id="color={{i}}" formControlName="color">
+          </td> 
+          <td class="document-selection regular-size-text">
+            <input class="notes" type="text" id="notes{{i}}" placeholder="Notes..." formControlName="notes">
+        </td>
+        </tr>
+      </table>
+      <div class="bottom-container">
+        <div class="message-container">
+          <div *ngIf = "!successfulSubmit && !successfulCancel">
+            <p class="regular-size-text">*File is not compatible with print center</p>
+          </div>
+          <div *ngIf = "successfulSubmit">
+            <p class="regular-size-text green">Print job submitted</p>
+          </div>
+          <div *ngIf = "successfulCancel">
+            <p class="regular-size-text red">Print job cancelled</p>
+          </div>
+        </div>  
+      <div class="buttons">  
+        <button class="submit" type="submit">Submit</button>
+        <button class="cancel" type="button" (click)="onCancel()">Cancel</button>
+      </div>
+    </div>
+    </form>
+  </div>
+</div>      

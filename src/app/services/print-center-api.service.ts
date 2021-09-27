@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 @Injectable({
@@ -16,5 +16,15 @@ export class PrintCenterApiService {
 
   sendPrintRequest(url: string, data: any) {
       return this.http.put(url, data);
-  } 
+  }
+  
+  deletePrintRequest(url: string, data: any) {
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: data
+    }
+    return this.http.delete(url, options);
+  }
 }

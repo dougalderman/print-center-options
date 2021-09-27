@@ -17,6 +17,8 @@ const unPrintable: string[] = [
 export class AppComponent {
 
   docs: string[] = [];
+  successfulSubmit: boolean = false;
+  successfulCancel: boolean = false;
  
   printCenterOptions: FormGroup = this.fb.group({
     deliverTo: ['owner'],
@@ -46,10 +48,8 @@ export class AppComponent {
     this.apiService.getDocuments('http://demo6343436.mockable.io/')
       .subscribe(
         (data: any) => {
-          console.log('data: ', data);
           if (data && data.documents && data.documents.filename && data.documents.filename.length) {
             this.docs = data.documents.filename;
-            console.log('this.docs: ', this.docs);
            
             for (let i = 0; i < this.docs.length; i++) {
               const doc: string = this.docs[i];
@@ -76,8 +76,6 @@ export class AppComponent {
                 );
               }  
             }
-
-            console.log('this.selections.controls: ', this.selections.controls);
           }
         }  
       );
@@ -99,13 +97,21 @@ export class AppComponent {
     this.apiService.sendPrintRequest('http://demo6343436.mockable.io/', formattedFormData)
       .subscribe(
         (data: any) => {
-          console.log('data: ', data);
+          this.successfulSubmit = true;
         });  
-
-    console.log('submitted');
   }
 
   onCancel(): void {
+    const deleteRequestData = {
+      'cancel': { 'printJobId': '987654321' }
+    }
+
+    this.apiService.deletePrintRequest('http://demo6343436.mockable.io/', deleteRequestData)
+    .subscribe(
+      (data: any) => {
+        this.successfulSubmit = false;
+        this.successfulCancel = true;
+      });  
     console.log('cancelled');
   }
 

@@ -1,0 +1,118 @@
+.outer-container {
+  font-family: sans-serif;
+  width: 60%;
+  border-style: solid;
+  border-width: 3px;
+  border-radius: 10px;
+}
+
+.inner-container {
+  padding: 5px;
+}
+
+.header {
+  font-size: 1.8rem;
+  margin-top: 2px;
+  margin-bottom: 5px;
+  font-weight: normal;
+}
+
+.subheader {
+  font-size: 1.3rem;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-weight: normal;
+}
+
+.informational {
+  margin-top: 5px;
+  margin-bottom: 6px;
+}
+
+#special-instructions {
+  width: 95%;
+  height: 4rem;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  border: 3px solid black;
+}
+
+.regular-size-text {
+  font-size: 0.9rem;
+  font-weight: 200;
+}
+
+.green {
+  color: green;
+}
+
+.red {
+  color: red;
+}
+
+table.document-selection{
+  width: 95%;
+  border: 1px solid black;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+th.document-selection {
+  border: 1px solid black;
+  text-align: left;
+  padding-left: 5px;
+}
+
+th.document-selection.file {
+  width: 40%;
+}
+
+th.document-selection.print {
+  width: 10%;
+}
+
+th.document-selection.color {
+  width: 10%;
+}
+
+th.document-selection.notes {
+  width: 40%;
+}
+
+td.document-selection {
+  border: 1px solid black;
+}
+
+tr:nth-child(odd) {
+  background-color: #d3d3d3d1;
+}
+
+input[type='text'].notes {
+  width: 90%;
+  border: 2px solid black;
+}
+
+.not-bold {
+  font-weight: normal;
+}
+
+.bottom-container {
+  display: flex;
+  align-items: center;
+}
+
+.message-container {
+  margin-right: 140px;
+}
+
+.submit {
+  width: 100px;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.cancel {
+  width: 100px;
+  border-radius: 5px;
+ }
+
